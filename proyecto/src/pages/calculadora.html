@@ -8,6 +8,20 @@
     <title>Aranceles Ecuador | Calculadora</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdfa', 300: '#5eead4', 400: '#2dd4bf',
+                            600: '#0d9488', 700: '#0f766e', 800: '#115e59'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
 
 <body class="bg-[#6EADBC]">
@@ -17,7 +31,7 @@
                 <span class="font-semibold text-lg text-gray-900">Aranceles Ecuador</span>
             </a>
             <div class="flex gap-6 text-sm font-medium">
-                <a href="index.html" class="text-gray-500 hover:text-primary-700">Inicio</a>
+                <a href="/index.html" class="text-gray-500 hover:text-primary-700">Inicio</a>
                 <a href="calculadora.html" class="text-primary-700">Calculadora</a>
             </div>
         </div>
@@ -36,14 +50,14 @@
                 <p class="text-sm leading-relaxed text-gray-600">
                     Esta aplicación permite a compradores ecuatorianos que realizan pedidos internacionales (por ejemplo
                     en Amazon, Temu o Shein) determinar si su envío califica para el régimen aduanero 4x4, el cual exime
-                    del pago de aranceles a paquetes que cumplen tres condiciones: peso y valor FOB dentro de los
+                    del pago de aranceles a paquetes que cumplen tres condiciones: valor FOB dentro de los
                     límites establecidos, cantidad máxima de unidades del mismo producto, y un número de envíos previos
                     dentro del cupo anual permitido. A partir de los datos que el usuario ingresa (valor del producto,
-                    cantidad, categoría, flete, seguro y, opcionalmente, ICE), la calculadora evalúa automáticamente
-                    estas condiciones y muestra el resultado mediante un indicador tipo semáforo: verde si el paquete
+                    cantidad, categoría, flete, seguro y, opcionalmente, ICE), la calculadora evalúa estas condiciones
+                    y muestra el resultado mediante un indicador tipo semáforo: verde si el paquete
                     califica y solo debe pagar el arancel fijo y el FODINFA correspondientes, o rojo si no califica, en
                     cuyo caso se calcula el total a pagar bajo el régimen general (ad-valorem, FODINFA, ICE e IVA). El
-                    objetivo es ofrecer una herramienta simple y educativa que traduzca la normativa aduanera vigente en
+                    objetivo es ofrecer una herramienta simple y educativa que traduzca la normativa en
                     un cálculo claro y verificable.
                 </p>
             </div>
@@ -135,9 +149,8 @@
                     </button>
                 </form>
             </div>
-
-            <div id="resultado" class="hidden px-6 pb-6" aria-live="polite"></div>
         </section>
+        <div id="resultado" class="hidden px-6 pb-6" aria-live="polite"></div>
 
         <footer class="bg-white shadow-md sm:rounded-lg">
             <div class="px-6 py-6">
@@ -174,7 +187,7 @@
 
     </div>
 
-    <script src="script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 
 </html>
