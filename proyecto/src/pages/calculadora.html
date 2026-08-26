@@ -3,189 +3,271 @@
 
 <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Aranceles Ecuador | Calculadora</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0fdfa', 300: '#5eead4', 400: '#2dd4bf',
-                            600: '#0d9488', 700: '#0f766e', 800: '#115e59'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 </head>
 
-<body class="bg-[#6EADBC]">
+<body class="bg-gray-50 font-sans text-gray-900">
+
     <nav class="bg-white border-b border-gray-200">
         <div class="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-3">
             <a href="index.html" class="flex items-center gap-2">
-                <span class="font-semibold text-lg text-gray-900">Aranceles Ecuador</span>
+                <img src="/logo.jpeg" alt="" width="30px">
+                <span class="bg-gradient-to-t from-[#E65100] via-[#FF9100] to-[#FFF176] bg-clip-text text-transparent font-semibold text-lg text-gray-900">Aranceles Ecuador</span>
             </a>
             <div class="flex gap-6 text-sm font-medium">
                 <a href="/index.html" class="text-gray-500 hover:text-primary-700">Inicio</a>
-                <a href="calculadora.html" class="text-primary-700">Calculadora</a>
+                <a href="calculadora.html" class="text-[#123b8c] font-bold">Calculadora</a>
             </div>
         </div>
     </nav>
 
-    <div class="w-full max-w-3xl px-4 mx-auto py-8 lg:py-16 space-y-6">
+    <div class="w-full max-w-6xl px-4 mx-auto py-8 lg:py-12 space-y-6">
 
-        <section class="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
-            <div class="p-6 text-center">
-                <h1 class="text-2xl font-bold tracking-tight text-primary-700">Calculadora de Aranceles — Régimen 4x4
-                </h1>
-                <p class="mt-2 text-gray-500">Verifica si tu compra internacional califica y cuánto pagarías</p>
-            </div>
+        <section class="relative overflow-hidden bg-white shadow-md sm:rounded-2xl p-6 lg:p-8 border border-gray-100">
+            <h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-center">
+                <span class="bg-gradient-to-r from-[#E65100] via-[#FF9100] to-[#E65100] bg-clip-text text-transparent">
+                    Calculadora de Aranceles — Régimen 4x4
+                </span>
+            </h1>
+            <h2 class="mt-2 text-gray-500 text-center text-xl font-bold lg:text-base">
+                Verifica si tu compra internacional califica y cuánto pagarías
+            </h2>
 
-            <div class="px-6 pb-6">
-                <p class="text-sm leading-relaxed text-gray-600">
-                    Esta aplicación permite a compradores ecuatorianos que realizan pedidos internacionales (por ejemplo
-                    en Amazon, Temu o Shein) determinar si su envío califica para el régimen aduanero 4x4, el cual exime
-                    del pago de aranceles a paquetes que cumplen tres condiciones: valor FOB dentro de los
-                    límites establecidos, cantidad máxima de unidades del mismo producto, y un número de envíos previos
-                    dentro del cupo anual permitido. A partir de los datos que el usuario ingresa (valor del producto,
-                    cantidad, categoría, flete, seguro y, opcionalmente, ICE), la calculadora evalúa estas condiciones
-                    y muestra el resultado mediante un indicador tipo semáforo: verde si el paquete
-                    califica y solo debe pagar el arancel fijo y el FODINFA correspondientes, o rojo si no califica, en
-                    cuyo caso se calcula el total a pagar bajo el régimen general (ad-valorem, FODINFA, ICE e IVA). El
-                    objetivo es ofrecer una herramienta simple y educativa que traduzca la normativa en
-                    un cálculo claro y verificable.
-                </p>
-            </div>
-        </section>
-
-        <section class="relative overflow-hidden bg-white shadow-md sm:rounded-lg">
-            <div class="p-6">
-                <h2 class="mb-4 text-xl font-bold text-gray-900">Datos de la importación</h2>
-                <p class="mb-6 text-sm text-gray-500">Ingresa los datos de tu compra internacional para saber si
-                    califica al régimen 4x4 y cuánto pagarías.</p>
-
-                <form id="form-4x4" novalidate>
-                    <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-
-                        <div class="w-full">
-                            <label for="valorFOB" class="block mb-2 text-sm font-medium text-gray-900">Valor FOB del
-                                producto (USD)</label>
-                            <input type="number" step="0.01" name="valorFOB" id="valorFOB"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Ej. 85.00">
-                            <p class="mt-1 text-xs text-red-600" data-error-for="valorFOB"></p>
-                        </div>
-
-                        <div class="w-full">
-                            <label for="cantidad" class="block mb-2 text-sm font-medium text-gray-900">Cantidad de
-                                unidades (mismo producto)</label>
-                            <input type="number" step="1" name="cantidad" id="cantidad"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Ej. 2">
-                            <p class="mt-1 text-xs text-red-600" data-error-for="cantidad"></p>
-                        </div>
-
-                        <div class="w-full">
-                            <label for="categoria" class="block mb-2 text-sm font-medium text-gray-900">Categoría del
-                                producto</label>
-                            <select id="categoria" name="categoria"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
-                                <option value="" selected disabled>Selecciona categoría</option>
-                                <option value="electronica">Electrónica / accesorios</option>
-                                <option value="ropa">Ropa y calzado</option>
-                                <option value="hogar">Hogar y bazar</option>
-                                <option value="otros">Otros</option>
-                            </select>
-                            <p class="mt-1 text-xs text-red-600" data-error-for="categoria"></p>
-                        </div>
-
-                        <div class="w-full">
-                            <label for="enviosPrevios" class="block mb-2 text-sm font-medium text-gray-900">Envíos 4x4
-                                previos este año</label>
-                            <input type="number" step="1" name="enviosPrevios" id="enviosPrevios"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Ej. 1">
-                            <p class="mt-1 text-xs text-red-600" data-error-for="enviosPrevios"></p>
-                        </div>
-
-                        <div class="w-full">
-                            <label for="flete" class="block mb-2 text-sm font-medium text-gray-900">Flete (USD)</label>
-                            <input type="number" step="0.01" name="flete" id="flete"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Ej. 8.00">
-                            <p class="mt-1 text-xs text-red-600" data-error-for="flete"></p>
-                        </div>
-
-                        <div class="w-full">
-                            <label for="seguro" class="block mb-2 text-sm font-medium text-gray-900">Seguro
-                                (USD)</label>
-                            <input type="number" step="0.01" name="seguro" id="seguro"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Ej. 1.50">
-                            <p class="mt-1 text-xs text-red-600" data-error-for="seguro"></p>
-                        </div>
-
-                        <div class="w-full">
-                            <label for="icePorcentaje" class="block mb-2 text-sm font-medium text-gray-900">ICE —
-                                opcional (%)</label>
-                            <input type="number" step="0.01" name="icePorcentaje" id="icePorcentaje"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                placeholder="Ej. 0">
-                            <p class="mt-1 text-xs text-gray-400">Solo aplica a productos específicos (ej. tecnología,
-                                perfumes). Déjalo vacío o en 0 si no corresponde.</p>
-                            <p class="mt-1 text-xs text-red-600" data-error-for="icePorcentaje"></p>
-                        </div>
-
-                    </div>
-
-                    <button type="submit"
-                        class="inline-flex items-center gap-2 mt-6 px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300">
-                        Calcular
-                    </button>
-                </form>
-            </div>
-        </section>
-        <div id="resultado" class="hidden px-6 pb-6" aria-live="polite"></div>
-
-        <footer class="bg-white shadow-md sm:rounded-lg">
-            <div class="px-6 py-6">
-                <div class="flex items-start gap-3">
-                    <svg class="w-5 h-5 mt-0.5 text-yellow-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                        <path fill-rule="evenodd"
-                            d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l6.518 11.598c.75 1.334-.213 2.98-1.742 2.98H3.48c-1.53 0-2.492-1.646-1.743-2.98L8.257 3.1zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                            clip-rule="evenodd" />
-                    </svg>
+            <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-6 mt-6">
+                <div>
+                    <p class="text-xs lg:text-sm leading-relaxed text-gray-600 border border-gray-200 shadow-sm p-4 rounded-xl bg-gray-50/50">
+                        Esta aplicación permite a compradores ecuatorianos que realizan pedidos internacionales (por
+                        ejemplo en Amazon, Temu o Shein) determinar si su envío califica para el régimen aduanero 4x4,
+                        el cual exime del pago de aranceles a paquetes que cumplen tres condiciones: valor FOB dentro de los
+                        límites establecidos, cantidad máxima de unidades del mismo producto, y un número de envíos
+                        previos dentro del cupo anual permitido. A partir de los datos que el usuario ingresa (valor del
+                        producto, cantidad, categoría, flete, seguro y, opcionalmente, ICE), la calculadora evalúa estas
+                        condiciones y muestra el resultado mediante un indicador tipo semáforo: verde si el paquete
+                        califica y solo debe pagar el arancel fijo y el FODINFA correspondientes, o rojo si no califica,
+                        en cuyo caso se calcula el total a pagar bajo el régimen general (ad-valorem, FODINFA, ICE e IVA).
+                        El objetivo es ofrecer una herramienta simple y educativa que traduzca la normativa en
+                        un cálculo claro y verificable.
+                    </p>
+                </div>
+                <div class="flex flex-col shadow-md rounded-xl p-5 gap-3 bg-[#123b8c] text-white">
                     <div>
-                        <h6 class="text-sm font-semibold text-gray-900">Aviso de responsabilidad</h6>
-                        <p class="mt-1 text-xs leading-relaxed text-gray-500">
-                            Esta calculadora fue desarrollada con fines exclusivamente académicos, como parte de un
-                            proyecto integrador estudiantil de la Pontificia Universidad Católica del Ecuador (PUCE).
-                            Los resultados son estimaciones referenciales basadas en las tarifas y condiciones
-                            normativas vigentes al momento de su desarrollo y no constituyen asesoría aduanera,
-                            tributaria ni legal. El valor final a pagar puede variar según el courier utilizado, el
-                            criterio de valoración de la aduana y actualizaciones posteriores de la normativa. Antes de
-                            realizar una importación, se recomienda verificar la información oficial y vigente
-                            directamente en el <a href="https://www.aduana.gob.ec" target="_blank"
-                                rel="noopener noreferrer" class="font-medium text-primary-700 hover:underline">Servicio
-                                Nacional de Aduana del Ecuador (SENAE)</a>. Los autores y la institución educativa no se
-                            hacen responsables por decisiones de compra o importación tomadas con base en los resultados
-                            de esta herramienta.
+                        <h3 class="text-base font-semibold">Cálculo estimado</h3>
+                        <p class="mt-0.5 text-xs text-blue-100">
+                            Herramienta educativa para entender la estructura de costos de importación.
                         </p>
-                        <p class="mt-3 text-xs text-gray-400">
-                            Proyecto integrador PUCE Tec · Herramienta educativa sin fines comerciales
-                        </p>
+                    </div>
+                    <div class="divide-y divide-white/20 text-xs">
+                        <div class="flex justify-between py-2">
+                            <span>FOB + Flete + Seguro</span>
+                            <strong>CIF</strong>
+                        </div>
+                        <div class="flex justify-between py-2">
+                            <span>Régimen 4x4</span>
+                            <strong>$20 fijo</strong>
+                        </div>
+                        <div class="flex justify-between py-2">
+                            <span>FODINFA</span>
+                            <strong>0.5%</strong>
+                        </div>
+                        <div class="flex justify-between py-2">
+                            <span>IVA</span>
+                            <strong>15%</strong>
+                        </div>
                     </div>
                 </div>
             </div>
-        </footer>
+        </section>
 
+
+        <section class="relative overflow-hidden bg-white shadow-md sm:rounded-2xl border border-gray-100 p-6 lg:p-8">
+            <h2 class="mb-2 text-xl font-bold text-gray-900">Datos de la importación</h2>
+            <p class="mb-6 text-sm text-gray-500">Ingresa los datos de tu compra internacional para calcular los valores
+                correspondientes.</p>
+
+            <form id="form-4x4">
+                <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+                    <div>
+                        <label for="valorFOB" class="block mb-2 text-sm font-medium text-gray-900">Valor FOB
+                            (USD)</label>
+                        <input type="number" step="0.01" name="valorFOB" id="valorFOB" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#123b8c] focus:border-[#123b8c] block w-full p-2.5"
+                            placeholder="Ej. 85.00">
+                    </div>
+
+                    <div>
+                        <label for="cantidad" class="block mb-2 text-sm font-medium text-gray-900">Cantidad de
+                            unidades</label>
+                        <input type="number" step="1" name="cantidad" id="cantidad" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#123b8c] focus:border-[#123b8c] block w-full p-2.5"
+                            placeholder="Ej. 2">
+                    </div>
+
+                    <div>
+                        <label for="categoria" class="block mb-2 text-sm font-medium text-gray-900">Categoría del
+                            producto</label>
+                        <select id="categoria" name="categoria" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#123b8c] focus:border-[#123b8c] block w-full p-2.5">
+                            <option value="" selected disabled>Selecciona categoría</option>
+                            <option value="electronica">Electrónica / accesorios</option>
+                            <option value="ropa">Ropa y calzado</option>
+                            <option value="hogar">Hogar y bazar</option>
+                            <option value="otros">Otros</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="enviosPrevios" class="block mb-2 text-sm font-medium text-gray-900">Envíos 4x4
+                            previos este año</label>
+                        <input type="number" step="1" name="enviosPrevios" id="enviosPrevios" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#123b8c] focus:border-[#123b8c] block w-full p-2.5"
+                            placeholder="Ej. 1">
+                    </div>
+
+                    <div>
+                        <label for="flete" class="block mb-2 text-sm font-medium text-gray-900">Flete (USD)</label>
+                        <input type="number" step="0.01" name="flete" id="flete" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#123b8c] focus:border-[#123b8c] block w-full p-2.5"
+                            placeholder="Ej. 8.00">
+                    </div>
+
+                    <div>
+                        <label for="seguro" class="block mb-2 text-sm font-medium text-gray-900">Seguro (USD)</label>
+                        <input type="number" step="0.01" name="seguro" id="seguro" required
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#123b8c] focus:border-[#123b8c] block w-full p-2.5"
+                            placeholder="Ej. 1.50">
+                    </div>
+
+                    <div class="sm:col-span-2 lg:col-span-3">
+                        <label for="icePorcentaje" class="block mb-1 text-sm font-medium text-gray-900">ICE — opcional
+                            (%)</label>
+                        <input type="number" step="0.01" name="icePorcentaje" id="icePorcentaje"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#123b8c] focus:border-[#123b8c] block w-full lg:w-1/3 p-2.5"
+                            placeholder="Ej. 0">
+                        <p class="mt-1 text-xs text-gray-400">Aplica solo a productos específicos (ej. tecnología,
+                            perfumes). Déjalo en 0 si no aplica.</p>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="inline-flex items-center gap-2 mt-6 px-6 py-3 text-sm font-semibold text-white bg-[#123b8c] hover:bg-[#071f5c] rounded-xl shadow-md focus:ring-4 focus:ring-blue-300 transition-all">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    Calcular Impuestos
+                </button>
+            </form>
+        </section>
     </div>
+
+
+    <div id="modal-resultado" tabindex="-1" aria-hidden="true"
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full max-h-full bg-gray-900/60 backdrop-blur-sm p-4">
+        <div class="relative w-full max-w-3xl max-h-[90vh] my-auto">
+            <div
+                class="relative bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden max-h-[90vh]">
+
+                <div class="flex items-center justify-between p-4 lg:p-5 border-b bg-gray-50">
+                    <h3 class="text-lg lg:text-xl font-bold text-gray-900 flex items-center gap-2">
+                        Informe de Evaluación Adicional
+                    </h3>
+                    <button type="button" id="btn-cerrar-modal"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="p-5 lg:p-6 space-y-6 overflow-y-auto">
+                    <div id="reporte-imprimible" class="p-2 space-y-4">
+                        <div id="modal-detalle-calculo"></div>
+                    </div>
+
+                    <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4 shadow-inner">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-sm font-bold text-gray-800 flex items-center gap-2">
+                                Modelo de Función Cartesiana (Costo vs. FOB)
+                            </h4>
+                            <span
+                                class="text-xs bg-blue-100 text-[#123b8c] font-medium px-2 py-0.5 rounded-full">Matemática
+                                a trozos</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mb-3">
+                            Este gráfico ilustra la discontinuidad en el costo tributario al superar el umbral de $400
+                            USD (Régimen 4x4 vs. Régimen General).
+                        </p>
+                        <div class="w-full h-56 bg-white p-2 rounded-xl border border-gray-200">
+                            <canvas id="graficoAranceles"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div
+                    class="flex flex-wrap items-center justify-end p-4 border-t border-gray-200 bg-gray-50 gap-2 lg:gap-3">
+                    <button id="btn-excel" type="button"
+                        class="inline-flex items-center gap-1.5 text-white bg-emerald-600 hover:bg-emerald-700 font-medium rounded-xl text-xs lg:text-sm px-4 py-2.5 transition-all">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 20V4h7v5h5v11H6zm10-9h-2.2l-1.8 2.6-1.8-2.6H8l2.8 3.9L8 18.8h2.2l1.8-2.7 1.8 2.7H16l-2.8-4 2.8-3.8z" />
+                        </svg>
+                        Excel (.xlsx)
+                    </button>
+
+                    <button id="btn-csv" type="button"
+                        class="inline-flex items-center gap-1.5 text-gray-800 bg-gray-200 hover:bg-gray-300 font-medium rounded-xl text-xs lg:text-sm px-4 py-2.5 transition-all">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        CSV (.csv)
+                    </button>
+
+                    <button id="btn-pdf" type="button"
+                        class="inline-flex items-center gap-1.5 text-white bg-[#123b8c] hover:bg-[#071f5c] font-medium rounded-xl text-xs lg:text-sm px-4 py-2.5 transition-all">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        PDF (.pdf)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="bg-white shadow-md rounded-2xl mb-8 mx-4 max-w-6xl lg:mx-auto border border-gray-100">
+        <div class="px-6 py-6">
+            <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 mt-0.5 text-yellow-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l6.518 11.598c.75 1.334-.213 2.98-1.742 2.98H3.48c-1.53 0-2.492-1.646-1.743-2.98L8.257 3.1zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd" />
+                </svg>
+                <div>
+                    <h6 class="text-sm font-semibold text-gray-900">Aviso de responsabilidad</h6>
+                    <p class="mt-1 text-xs leading-relaxed text-gray-500">
+                        Esta calculadora fue desarrollada con fines exclusivamente académicos (Proyecto Integrador
+                        PUCE). Los resultados son estimaciones referenciales y no constituyen asesoría aduanera formal.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="../js/script.js"></script>
 </body>

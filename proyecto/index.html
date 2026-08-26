@@ -8,28 +8,15 @@
   <title>Aranceles Ecuador | Inicio</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              50: '#f0fdfa', 300: '#5eead4', 400: '#2dd4bf',
-              600: '#0d9488', 700: '#0f766e', 800: '#115e59'
-            }
-          }
-        }
-      }
-    }
-  </script>
 </head>
 
-<body class="bg-[#6EADBC]">
+<body>
 
   <nav class="bg-white border-b border-gray-200">
     <div class="max-w-screen-xl flex items-center justify-between mx-auto px-4 py-3">
       <a href="index.html" class="flex items-center gap-2">
-        <span class="font-semibold text-lg text-gray-900">Aranceles Ecuador</span>
+        <img src="/logo.jpeg" alt="" width="30px">
+        <span class="bg-gradient-to-t from-[#E65100] via-[#FF9100] to-[#FFF176] bg-clip-text text-transparent font-semibold text-lg text-gray-900">Aranceles Ecuador</span>
       </a>
       <div class="flex gap-6 text-sm font-medium">
         <a href="index.html" class="text-primary-700">Inicio</a>
@@ -40,82 +27,54 @@
   </nav>
 
   <main class="max-w-screen-xl mx-auto px-4 py-16 space-y-16">
-
-    <section class="grid gap-10 lg:grid-cols-[1.25fr_0.75fr] items-center">
+    <section class="grid gap-10 lg:grid-cols-[1fr_1fr] items-center">
       <div>
-        <span class="inline-block text-primary-800 text-xs font-bold uppercase tracking-wider">
-          Sistema de cálculo para Ecuador
-        </span>
         <h1 class="mt-3 text-4xl sm:text-5xl font-extrabold leading-tight text-gray-900">
-          Calcula tus costos de importación de forma sencilla.
+          Calcula tus costos de
+          <span class="bg-gradient-to-t from-[#E65100] via-[#FF9100] to-[#FFF176] bg-clip-text text-transparent">
+            importación de forma sencilla.
+          </span>
         </h1>
-        <p class="mt-4 max-w-xl text-gray-700 text-lg">
+        <p class="mt-4 max-w-xl text-gray-700 text-lg font-bold">
           Verifica si tu compra internacional califica para el régimen 4x4 y, si no,
           estima el arancel, FODINFA, IVA y el total aproximado a pagar.
         </p>
-        <a href="/src/pages/calculadora.html"
-          class="inline-flex items-center gap-2 mt-6 px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300">
+        <a href="/src/pages/calculadora.html" class="inline-flex items-center gap-2 mt-6 px-5 py-3 text-sm font-semibold text-white bg-[#123b8c] hover:bg-[#071f5c] rounded-lg  focus:ring-4 focus:ring-primary-300">
           Realizar cálculo
-          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-            aria-hidden="true">
-            <path fill-rule="evenodd"
-              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-              clip-rule="evenodd" />
-          </svg>
         </a>
       </div>
 
-      <div class="bg-white shadow-md rounded-lg p-6">
-        <h3 class="text-lg font-semibold text-gray-900">Cálculo estimado</h3>
-        <p class="mt-1 text-sm text-gray-500">
-          Una herramienta educativa para entender cómo se forma el costo de una importación.
-        </p>
-        <div class="mt-4 divide-y divide-gray-100 text-sm">
-          <div class="flex justify-between py-3">
-            <span class="text-gray-500">FOB + Flete + Seguro</span>
-            <strong class="text-primary-700">CIF</strong>
-          </div>
-          <div class="flex justify-between py-3">
-            <span class="text-gray-500">Régimen 4x4</span>
-            <strong class="text-primary-700"> $20 fijo</strong>
-          </div>
-          <div class="flex justify-between py-3">
-            <span class="text-gray-500">FODINFA</span>
-            <strong class="text-primary-700">0,5%</strong>
-          </div>
-          <div class="flex justify-between py-3">
-            <span class="text-gray-500">IVA</span>
-            <strong class="text-primary-700">15%</strong>
-          </div>
+        <div class="shadow-md rounded-lg">
+          <img src="/logo.jpeg" alt="">
         </div>
       </div>
     </section>
 
     <section>
-      <span class="text-primary-800 text-xs font-bold uppercase tracking-wider">¿Cómo
+      <span class="text-primary-800 text-lg font-bold uppercase tracking-wider">¿Cómo
         funciona?</span>
       <h2 class="mt-2 text-2xl sm:text-3xl font-bold text-gray-900">Calcula en 3 pasos</h2>
 
-      <div class="mt-8 grid gap-6 sm:grid-cols-3">
-        <article class="bg-white shadow-md rounded-lg p-6">
+      <div class="mt-8 grid gap-6 sm:grid-cols-3 text-white">
+        <article class="bg-[#123b8c] shadow-md rounded-lg p-6">
           <span
-            class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-50 text-primary-700 font-bold">01</span>
-          <h3 class="mt-4 font-semibold text-gray-900">Ingresa los valores</h3>
-          <p class="mt-1 text-sm text-gray-500">Registra el valor FOB, cantidad, flete y seguro de tu
+            class="flex items-center justify-center w-11 h-11 rounded-full font-bold">01</span>
+          <h3 class="mt-4 font-semibold">Ingresa los valores</h3>
+          <p class="mt-1 text-sm">Registra el valor FOB, cantidad, flete y seguro de tu
             mercancía.</p>
         </article>
-        <article class="bg-white shadow-md rounded-lg p-6">
+        <article class="bg-[#ff9800] shadow-md rounded-lg p-6">
           <span
-            class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-50 text-primary-700 font-bold">02</span>
-          <h3 class="mt-4 font-semibold text-gray-900">Verifica si calificas</h3>
-          <p class="mt-1 text-sm text-gray-500">La app evalúa unidades, valor FOB y envíos previos
+            class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-50 font-bold">02</span>
+          <h3 class="mt-4 font-semibold">Verifica si calificas</h3>
+          <p class="mt-1 text-sm">La app evalúa unidades, valor FOB y envíos previos
             para el régimen 4x4.</p>
         </article>
-        <article class="bg-white shadow-md rounded-lg p-6">
+        <article class="bg-[#071f5c] shadow-md rounded-lg p-6">
           <span
-            class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-50 text-primary-700 font-bold">03</span>
-          <h3 class="mt-4 font-semibold text-gray-900">Obtén el resultado</h3>
-          <p class="mt-1 text-sm text-gray-500">Calcula CIF, arancel, FODINFA, ICE, IVA y total
+            class="flex items-center justify-center w-11 h-11 rounded-full bg-primary-50 font-bold">03</span>
+          <h3 class="mt-4 font-semibold">Obtén el resultado</h3>
+          <p class="mt-1 text-sm">Calcula CIF, arancel, FODINFA, ICE, IVA y total
             estimado.</p>
         </article>
       </div>
@@ -139,7 +98,7 @@
         </div>
       </div>
       <a href="/src/pages/calculadora.html"
-        class="inline-flex items-center gap-2 mt-6 px-5 py-3 text-sm font-semibold text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300">
+        class="inline-flex items-center gap-2 mt-6 px-5 py-3 text-sm font-semibold text-white bg-[#123b8c] hover:bg-[#071f5c] rounded-lg focus:ring-4 focus:ring-primary-300">
         Abrir calculadora
       </a>
     </section>
