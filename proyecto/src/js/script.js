@@ -208,32 +208,28 @@ function renderizarGrafico(datos) {
       maintainAspectRatio: false,
       interaction: {
         mode: 'index',
-        intersect: false, // Permite activar el tooltip al acercarse al eje vertical del punto
+        intersect: false, 
       },
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: 'rgba(15, 23, 42, 0.95)', // Fondo oscuro elegante
+          backgroundColor: 'rgba(15, 23, 42, 0.95)', 
           titleFont: { size: 13, weight: 'bold' },
           bodyFont: { size: 12 },
           padding: 12,
           cornerRadius: 10,
           displayColors: false,
           callbacks: {
-            // Título del tooltip (Punto seleccionado)
             title: (tooltipItems) => {
               const idx = tooltipItems[0].dataIndex;
               const p = desglosePuntos[idx];
               return `Valor FOB: $${p.fob.toFixed(2)} USD (${p.es4x4 ? 'Régimen 4x4' : 'Régimen General'})`;
             },
-            // Contenido completo del desglose para ese punto
             label: (context) => {
               const idx = context.dataIndex;
               const p = desglosePuntos[idx];
-              
               if (p.es4x4) {
                 return [
-                  `------------------------------`,
                   `• CIF: $${p.cif.toFixed(2)}`,
                   `• Tasa Fija 4x4: $${ARANCEL_FIJO_4X4.toFixed(2)}`,
                   `• FODINFA (0.5%): $${p.calculo.fodinfa.toFixed(2)}`,
@@ -241,8 +237,7 @@ function renderizarGrafico(datos) {
                   ` TOTAL A PAGAR: $${p.calculo.total.toFixed(2)} USD`
                 ];
               } else {
-                const lineas = [
-                  `------------------------------`,
+                const lineas = [,
                   `• CIF: $${p.cif.toFixed(2)}`,
                   `• Ad-Valorem (${(p.calculo.tasaAdValorem * 100).toFixed(0)}%): $${p.calculo.adValorem.toFixed(2)}`,
                   `• FODINFA (0.5%): $${p.calculo.fodinfa.toFixed(2)}`
