@@ -13,8 +13,13 @@ const arancelesPorCategoria = {
 };
 
 const form = document.getElementById('form-4x4');
-const modalEl = document.getElementById('modal-resultado');
-const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+const modalElement = document.getElementById('modal-resultado');
+
+let modalInstance = null;
+if (typeof Modal !== 'undefined' && modalElement) {
+  modalInstance = new Modal(modalElement);
+}
+
 let chartInstance = null;
 let datosUltimoCalculo = null;
 
@@ -79,12 +84,11 @@ function filaResultado(etiqueta, valor) {
     </div>`;
 }
 
-
 function formatearResultadoModal(datos, evaluacion, cif, calculo) {
   const { califica, p1, p2, p3 } = evaluacion;
 
   const iconCheck = `<svg class="w-4 h-4 text-emerald-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>`;
-  const iconCross = `<svg class="w-4 h-4 text-red-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>`;
+  const iconCross = `<svg class="w-4 h-4 text-red-500 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 101.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>`;
 
   const bgHeader = califica ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200';
   const textHeader = califica ? 'text-emerald-900' : 'text-red-900';
@@ -157,8 +161,6 @@ function formatearResultadoModal(datos, evaluacion, cif, calculo) {
     </div>`;
 }
 
-
-// GRÁFICO TIPO GEOGEBRA CON TOOLTIP DETALLADO EN HOVER
 function renderizarGrafico(datos) {
   const ctx = document.getElementById('graficoAranceles').getContext('2d');
   
@@ -166,10 +168,8 @@ function renderizarGrafico(datos) {
     chartInstance.destroy();
   }
 
-  // Puntos del eje X (Valores FOB a simular)
   const puntosFOB = [50, 100, 200, 300, 400, 401, 500, 600, 750, 1000];
   
-  // Calculamos el desglose completo para cada punto simulado
   const desglosePuntos = puntosFOB.map(fob => {
     const cif = fob + datos.seguro + datos.flete;
     const es4x4 = fob <= LIMITE_FOB_4X4 && datos.cantidad <= LIMITE_CANTIDAD_4X4 && datos.enviosPrevios < LIMITE_ENVIOS_4X4;
@@ -178,12 +178,7 @@ function renderizarGrafico(datos) {
       ? calcular4x4(cif) 
       : calcularGeneral(cif, datos.categoria, datos.icePorcentaje);
 
-    return {
-      fob,
-      cif,
-      es4x4,
-      calculo
-    };
+    return { fob, cif, es4x4, calculo };
   });
 
   chartInstance = new Chart(ctx, {
@@ -200,7 +195,7 @@ function renderizarGrafico(datos) {
         tension: 0,
         pointBackgroundColor: puntosFOB.map(v => Math.abs(v - datos.valorFOB) < 40 ? '#ef4444' : '#123b8c'),
         pointRadius: puntosFOB.map(v => Math.abs(v - datos.valorFOB) < 40 ? 6 : 4),
-        pointHoverRadius: 8, // Agranda el punto al pasar el cursor
+        pointHoverRadius: 8,
       }]
     },
     options: {
@@ -237,7 +232,7 @@ function renderizarGrafico(datos) {
                   ` TOTAL A PAGAR: $${p.calculo.total.toFixed(2)} USD`
                 ];
               } else {
-                const lineas = [,
+                const lineas = [
                   `• CIF: $${p.cif.toFixed(2)}`,
                   `• Ad-Valorem (${(p.calculo.tasaAdValorem * 100).toFixed(0)}%): $${p.calculo.adValorem.toFixed(2)}`,
                   `• FODINFA (0.5%): $${p.calculo.fodinfa.toFixed(2)}`
@@ -268,18 +263,6 @@ function renderizarGrafico(datos) {
     }
   });
 }
-
-function abrirModal() {
-  modalEl.classList.remove('hidden');
-  modalEl.classList.add('flex');
-}
-
-function cerrarModal() {
-  modalEl.classList.add('hidden');
-  modalEl.classList.remove('flex');
-}
-
-btnCerrarModal.addEventListener('click', cerrarModal);
 
 function exportarDatos(tipo) {
   if (!datosUltimoCalculo) return;
@@ -335,18 +318,6 @@ function exportarDatos(tipo) {
 document.getElementById('btn-excel').addEventListener('click', () => exportarDatos('excel'));
 document.getElementById('btn-csv').addEventListener('click', () => exportarDatos('csv'));
 
-document.getElementById('btn-pdf').addEventListener('click', () => {
-  const elemento = document.getElementById('reporte-imprimible');
-  const opt = {
-    margin: 0.4,
-    filename: `Calculo_Arancel_${Date.now()}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-  };
-  html2pdf().set(opt).from(elemento).save();
-});
-
 form.addEventListener('submit', (event) => {
   event.preventDefault();
 
@@ -357,11 +328,13 @@ form.addEventListener('submit', (event) => {
   const calculo = evaluacion.califica
     ? calcular4x4(cif)
     : calcularGeneral(cif, datos.categoria, datos.icePorcentaje);
-
-
+    
   datosUltimoCalculo = { datos, evaluacion, cif, calculo };
 
   formatearResultadoModal(datos, evaluacion, cif, calculo);
   renderizarGrafico(datos);
-  abrirModal();
+  
+  if (modalInstance) {
+    modalInstance.show();
+  }
 });
